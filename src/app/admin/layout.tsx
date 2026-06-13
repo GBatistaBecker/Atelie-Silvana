@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { LayoutDashboard, Package, LogOut } from 'lucide-react'
+import { LayoutDashboard, Package, LogOut, History, Users } from 'lucide-react'
 import { signOut } from '@/actions/auth'
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -24,6 +24,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           >
             <Package size={20} />
             Produtos
+          </Link>
+          <Link
+            href="/admin/vendas"
+            className="flex items-center gap-3 px-3 py-2 rounded-md text-[#B28F76] hover:bg-[#DDD0C2] transition-colors"
+          >
+            <History size={20} />
+            Histórico de Vendas
+          </Link>
+          <Link
+            href="/admin/usuarios"
+            className="flex items-center gap-3 px-3 py-2 rounded-md text-[#B28F76] hover:bg-[#DDD0C2] transition-colors"
+          >
+            <Users size={20} />
+            Usuários
           </Link>
         </nav>
         <div className="p-4 border-t border-[#DDD0C2]">
