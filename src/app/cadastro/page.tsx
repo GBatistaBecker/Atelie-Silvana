@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { signUp } from '@/actions/auth'
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
+import { Header } from '@/components/Header'
 
 export default function RegisterPage() {
   const [error, setError] = useState<string | null>(null)
@@ -65,8 +66,10 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#F3EAE5] px-4 py-12 sm:px-6 lg:px-8">
-      <div className="w-full max-w-lg space-y-8 bg-[#ECE1D9] p-8 rounded-xl shadow-sm border border-[#DDD0C2]">
+    <div className="min-h-screen flex flex-col bg-[#F3EAE5]">
+      <Header user={null} />
+      <div className="flex flex-1 items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+        <div className="w-full max-w-lg space-y-8 bg-[#ECE1D9] p-8 rounded-xl shadow-sm border border-[#DDD0C2]">
         <div>
           <h2 className="mt-6 text-center text-3xl font-heading font-bold tracking-tight text-[#B28F76]">
             Crie sua conta
@@ -209,6 +212,7 @@ export default function RegisterPage() {
             </button>
           </div>
         </form>
+      </div>
       </div>
     </div>
   )
