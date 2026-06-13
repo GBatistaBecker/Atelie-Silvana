@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { SearchInput } from '@/components/admin/SearchInput'
 import { Pagination } from '@/components/admin/Pagination'
 import { ExportPdfButton } from '@/components/admin/ExportPdfButton'
@@ -16,7 +16,7 @@ export default async function VendasPage({
   const query = params?.q || ''
   const currentPage = Number(params?.page) || 1
 
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   // Calcular offsets para paginação (.range é zero-based e inclusivo nas duas pontas)
   const from = (currentPage - 1) * ITEMS_PER_PAGE

@@ -32,8 +32,21 @@ export async function signUp(formData: FormData) {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
 
+  // Campos de endereço
+  const zip_code = formData.get('zip_code') as string
+  const street = formData.get('street') as string
+  const number = formData.get('number') as string
+  const complement = formData.get('complement') as string
+  const neighborhood = formData.get('neighborhood') as string
+  const city = formData.get('city') as string
+  const state = formData.get('state') as string
+
   if (!name || !email || !password) {
     return { error: 'Nome, e-mail e senha são obrigatórios.' }
+  }
+
+  if (!zip_code || !street || !number || !neighborhood || !city || !state) {
+    return { error: 'Por favor, preencha todos os campos obrigatórios do endereço.' }
   }
 
   const supabase = await createClient()
@@ -72,6 +85,25 @@ export async function signUp(formData: FormData) {
 
     if (profileError) {
       return { error: `Erro ao criar o perfil do usuário: ${profileError.message} (${profileError.code})` }
+    }
+
+    // 3. Inserir o endereço do usuário na tabela addresses
+    const { error: addressError } = await supabaseAdmin
+      .from('addresses')
+      .insert({
+        user_id: authData.user.id,
+        zip_code,
+        street,
+        number,
+        complement: complement || null,
+        neighborhood,
+        city,
+        state,
+      })
+
+    if (addressError) {
+      // Idealmente reverter a criação do perfil/auth aqui, mas para manter a consistência reportamos o erro
+      return { error: `Erro ao salvar o endereço do usuário: ${addressError.message}` }
     }
   }
 

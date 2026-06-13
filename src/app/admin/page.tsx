@@ -1,11 +1,11 @@
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import Link from 'next/link'
 import { FileClock, DollarSign, Users, Package } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AdminDashboard() {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   // 1. Pedidos Pendentes
   const { count: pendingOrders } = await supabase

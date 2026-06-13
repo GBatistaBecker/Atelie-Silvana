@@ -2,34 +2,18 @@
 
 import { useState } from 'react'
 import { FileDown } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { getFilteredOrdersForExport } from '@/actions/orders'
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 
 export function ExportPdfButton({ query }: { query: string }) {
   const [isExporting, setIsExporting] = useState(false)
-  const supabase = createClient()
-
   const handleExport = async () => {
     setIsExporting(true)
     try {
-      let queryBuilder = supabase
-        .from('orders')
-        .select(`
-          id,
-          total_price,
-          created_at,
-          user:profiles!inner(name)
-        `)
-        .order('created_at', { ascending: false })
+      const { data, error } = await getFilteredOrdersForExport(query)
 
-      if (query) {
-        queryBuilder = queryBuilder.ilike('user.name', `%${query}%`)
-      }
-
-      const { data, error } = await queryBuilder
-
-      if (error) {
+      if (error || !data) {
         console.error('Erro ao buscar dados para PDF', error)
         alert('Erro ao gerar relatório.')
         return

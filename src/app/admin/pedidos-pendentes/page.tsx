@@ -1,11 +1,11 @@
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { Package, Truck, CheckCircle } from 'lucide-react'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
 
 export default async function PedidosPendentes() {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   // Buscar pedidos com status pending (e talvez paid se pending não for o único não-finalizado)
   // Para essa interface estratégica, consideraremos 'pending' e 'paid' como pedidos para despachar

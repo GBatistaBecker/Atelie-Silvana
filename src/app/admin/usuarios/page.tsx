@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { Pagination } from '@/components/admin/Pagination'
 import { UsersFilters } from '@/components/admin/UsersFilters'
 
@@ -17,7 +17,7 @@ export default async function UsuariosPage({
   const city = params?.city || ''
   const currentPage = Number(params?.page) || 1
 
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const from = (currentPage - 1) * ITEMS_PER_PAGE
   const to = from + ITEMS_PER_PAGE - 1
