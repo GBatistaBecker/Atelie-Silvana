@@ -1,13 +1,13 @@
 import { ProductForm } from '@/components/admin/ProductForm'
 import { updateProduct } from '@/actions/products'
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { notFound } from 'next/navigation'
 
 export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   const { data: product, error } = await supabase
     .from('products')
     .select('*')

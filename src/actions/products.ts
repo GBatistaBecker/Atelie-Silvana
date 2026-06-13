@@ -1,11 +1,11 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 export async function createProduct(formData: FormData) {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const name = formData.get('name') as string
   const description = formData.get('description') as string
@@ -47,7 +47,7 @@ export async function createProduct(formData: FormData) {
 }
 
 export async function updateProduct(id: string, formData: FormData) {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const name = formData.get('name') as string
   const description = formData.get('description') as string
@@ -89,7 +89,7 @@ export async function updateProduct(id: string, formData: FormData) {
 }
 
 export async function deleteProduct(id: string) {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const { error } = await supabase.from('products').delete().eq('id', id)
 
