@@ -24,7 +24,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-[#F3EAE5] flex flex-col">
-      <Header user={user} />
+      <Header user={user} activePath="/" />
 
       {/* Main Content (Search Section) */}
       <main className="flex-1 flex flex-col items-center justify-center p-8">

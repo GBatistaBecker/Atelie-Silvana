@@ -5,16 +5,17 @@ import type { User } from '@supabase/supabase-js'
 
 interface HeaderProps {
   user: User | null
+  activePath?: string
 }
 
-export function Header({ user }: HeaderProps) {
+export function Header({ user, activePath }: HeaderProps) {
   return (
     <header className="flex items-center justify-between px-6 py-4 border-b border-[#DDD0C2] bg-[#ECE1D9]">
       <nav className="flex items-center gap-6">
-        <Link href="/" className="text-lg font-heading font-bold text-[#B28F76] underline underline-offset-4 decoration-2">
+        <Link href="/" className={`text-lg font-heading ${activePath === '/' ? 'font-bold underline underline-offset-4 decoration-2' : 'font-medium hover:text-[#D2B6A2] transition-colors'} text-[#B28F76]`}>
           Home
         </Link>
-        <Link href="/produtos" className="text-lg font-heading font-medium text-[#B28F76] hover:text-[#D2B6A2] transition-colors">
+        <Link href="/produtos" className={`text-lg font-heading ${activePath === '/produtos' ? 'font-bold underline underline-offset-4 decoration-2' : 'font-medium hover:text-[#D2B6A2] transition-colors'} text-[#B28F76]`}>
           Produtos
         </Link>
       </nav>
