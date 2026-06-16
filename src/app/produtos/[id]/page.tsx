@@ -2,8 +2,9 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { Header } from '@/components/Header'
 import { ProductImage } from './ProductImage'
+import { AddToCart } from './AddToCart'
 import Link from 'next/link'
-import { ShoppingBag, ArrowLeft } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
@@ -75,18 +76,8 @@ export default async function ProductDetailsPage({
               <div className="text-3xl font-heading font-bold text-[#B28F76] mb-8">
                 R$ {Number(product.price).toFixed(2).replace('.', ',')}
               </div>
-              
               <div className="">
-                <form action="/cart" method="GET">
-                  {/* Future integration for adding to cart goes here */}
-                  <button 
-                    type="submit"
-                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 bg-[#B28F76] text-[#F3EAE5] text-lg font-bold rounded-xl hover:bg-[#D2B6A2] hover:text-[#B28F76] transition-all hover:shadow-md active:scale-[0.98]"
-                  >
-                    <ShoppingBag size={24} />
-                    Adicionar ao Carrinho
-                  </button>
-                </form>
+                <AddToCart productId={product.id} />
               </div>
             </div>
           </div>

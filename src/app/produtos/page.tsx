@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { Header } from '@/components/Header'
 import { Filters } from './Filters'
+import { Pagination } from './Pagination'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -20,8 +21,13 @@ export default async function ProdutosPage({
   const params = await searchParams
   const search = typeof params.search === 'string' ? params.search : ''
   const sort = typeof params.sort === 'string' ? params.sort : 'relevance'
+  
+  const ITEMS_PER_PAGE = 10
+  const currentPage = typeof params.page === 'string' ? parseInt(params.page, 10) || 1 : 1
+  const from = (currentPage - 1) * ITEMS_PER_PAGE
+  const to = from + ITEMS_PER_PAGE - 1
 
-  let query = adminSupabase.from('products').select('*')
+  let query = adminSupabase.from('products').select('*', { count: 'exact' })
 
   if (search) {
     query = query.or(`name.ilike.%${search}%,description.ilike.%${search}%`)
@@ -35,7 +41,10 @@ export default async function ProdutosPage({
     query = query.order('created_at', { ascending: false })
   }
 
-  const { data: products } = await query
+  query = query.range(from, to)
+
+  const { data: products, count } = await query
+  const totalPages = count ? Math.ceil(count / ITEMS_PER_PAGE) : 0
 
   return (
     <div className="min-h-screen bg-[#F3EAE5] flex flex-col">
@@ -85,6 +94,8 @@ export default async function ProdutosPage({
             ))}
           </div>
         )}
+        
+        <Pagination totalPages={totalPages} currentPage={currentPage} />
       </main>
     </div>
   )
