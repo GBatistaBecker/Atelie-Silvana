@@ -23,29 +23,60 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
 
-export function CartProvider({ children }: { children: React.ReactNode }) {
+export function CartProvider({ children, userId }: { children: React.ReactNode, userId?: string }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [isInitialized, setIsInitialized] = useState(false)
 
-  // Load from localStorage on mount
+  const storageKey = userId ? `@atelie-cart-${userId}` : '@atelie-cart-guest'
+
+  // Load from localStorage on mount and when userId changes
   useEffect(() => {
-    const savedCart = localStorage.getItem('@atelie-cart')
+    let loadedItems: CartItem[] = []
+    const savedCart = localStorage.getItem(storageKey)
+    
     if (savedCart) {
       try {
-        setCartItems(JSON.parse(savedCart))
+        loadedItems = JSON.parse(savedCart)
       } catch (e) {
         console.error('Failed to parse cart', e)
       }
     }
+
+    // Merge guest cart if user just logged in
+    if (userId) {
+      const guestCartStr = localStorage.getItem('@atelie-cart-guest')
+      if (guestCartStr) {
+        try {
+          const guestItems: CartItem[] = JSON.parse(guestCartStr)
+          if (guestItems.length > 0) {
+            // Merge logic: append new items or add quantity
+            guestItems.forEach(guestItem => {
+              const existingIdx = loadedItems.findIndex(i => i.product_id === guestItem.product_id && i.custom_description === guestItem.custom_description)
+              if (existingIdx >= 0) {
+                loadedItems[existingIdx].quantity += guestItem.quantity
+              } else {
+                loadedItems.push(guestItem)
+              }
+            })
+          }
+        } catch (e) {
+          console.error('Failed to merge guest cart', e)
+        }
+        // Remove guest cart after merge
+        localStorage.removeItem('@atelie-cart-guest')
+      }
+    }
+
+    setCartItems(loadedItems)
     setIsInitialized(true)
-  }, [])
+  }, [storageKey, userId])
 
   // Save to localStorage whenever cart changes
   useEffect(() => {
     if (isInitialized) {
-      localStorage.setItem('@atelie-cart', JSON.stringify(cartItems))
+      localStorage.setItem(storageKey, JSON.stringify(cartItems))
     }
-  }, [cartItems, isInitialized])
+  }, [cartItems, isInitialized, storageKey])
 
   const addToCart = (newItem: CartItem) => {
     setCartItems(prev => {

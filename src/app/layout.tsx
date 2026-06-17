@@ -18,18 +18,23 @@ export const metadata: Metadata = {
   description: "E-commerce de bordados artesanais e personalizados",
 };
 
-export default function RootLayout({
+import { createClient } from '@/lib/supabase/server'
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <CartProvider>
+        <CartProvider userId={user?.id}>
           {children}
         </CartProvider>
       </body>
