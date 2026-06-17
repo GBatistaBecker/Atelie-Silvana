@@ -3,25 +3,34 @@
 import { useState } from 'react'
 import { ShoppingBag, Minus, Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useCart } from '@/contexts/CartContext'
 
 interface AddToCartProps {
-  productId: string
+  product: {
+    id: string
+    name: string
+    price: number
+    image_url: string
+  }
 }
 
-export function AddToCart({ productId }: AddToCartProps) {
+export function AddToCart({ product }: AddToCartProps) {
   const [customDescription, setCustomDescription] = useState('')
   const [quantity, setQuantity] = useState(1)
   const router = useRouter()
+  const { addToCart } = useCart()
 
   const handleAddToCart = () => {
-    const params = new URLSearchParams()
-    params.set('productId', productId)
-    params.set('quantity', quantity.toString())
-    if (customDescription.trim()) {
-      params.set('custom_description', customDescription.trim())
-    }
+    addToCart({
+      product_id: product.id,
+      name: product.name,
+      price: product.price,
+      quantity,
+      image_url: product.image_url,
+      custom_description: customDescription.trim() || undefined
+    })
     
-    router.push(`/cart?${params.toString()}`)
+    router.push('/carrinho')
   }
 
   const decrement = () => setQuantity(q => Math.max(1, q - 1))

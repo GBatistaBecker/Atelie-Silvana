@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { LogOut } from 'lucide-react'
 import { signOut } from '@/actions/auth'
 import type { User } from '@supabase/supabase-js'
+import { CartBadge } from './CartBadge'
 
 interface HeaderProps {
   user: User | null
@@ -20,7 +21,8 @@ export function Header({ user, activePath }: HeaderProps) {
         </Link>
       </nav>
 
-      <div>
+      <div className="flex items-center gap-4">
+        <CartBadge />
         {user ? (
           <form action={signOut}>
             <button

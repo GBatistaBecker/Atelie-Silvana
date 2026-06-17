@@ -77,7 +77,12 @@ export default async function ProductDetailsPage({
                 R$ {Number(product.price).toFixed(2).replace('.', ',')}
               </div>
               <div className="">
-                <AddToCart productId={product.id} />
+                <AddToCart product={{
+                  id: product.id,
+                  name: product.name,
+                  price: product.price,
+                  image_url: product.image_url
+                }} />
               </div>
             </div>
           </div>
