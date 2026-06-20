@@ -38,9 +38,9 @@ export async function Header({ user, activePath }: HeaderProps) {
           <Image 
             src="/img/logo-sem-fundo.png" 
             alt="Ateliê Silvana Becker Logo" 
-            width={180} 
-            height={72} 
-            className="h-14 sm:h-20 w-auto object-contain"
+            width={240} 
+            height={100} 
+            className="h-20 sm:h-28 w-auto object-contain"
             priority
           />
         </Link>
