@@ -1,16 +1,34 @@
 import Link from 'next/link'
-import { LogOut, Scissors } from 'lucide-react'
-import { signOut } from '@/actions/auth'
+import { Scissors } from 'lucide-react'
 import type { User } from '@supabase/supabase-js'
 import { CartBadge } from './CartBadge'
 import { SearchBar } from './SearchBar'
+import { UserMenu } from './UserMenu'
+import { createClient } from '@/lib/supabase/server'
 
 interface HeaderProps {
   user: User | null
   activePath?: string
 }
 
-export function Header({ user, activePath }: HeaderProps) {
+export async function Header({ user, activePath }: HeaderProps) {
+  let userName = ''
+  
+  if (user) {
+    const supabase = await createClient()
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('name')
+      .eq('id', user.id)
+      .single()
+      
+    if (profile?.name) {
+      userName = profile.name.split(' ')[0]
+    } else {
+      userName = user.user_metadata?.name?.split(' ')[0] || 'Usuário'
+    }
+  }
+
   return (
     <header className="flex flex-col md:flex-row items-center justify-between px-6 py-4 border-b border-[#DDD0C2] bg-[#ECE1D9] gap-4 shadow-sm sticky top-0 z-50">
       
@@ -39,15 +57,7 @@ export function Header({ user, activePath }: HeaderProps) {
       <div className="flex w-full md:w-auto items-center justify-end gap-4 order-2 md:order-3">
         <CartBadge />
         {user ? (
-          <form action={signOut}>
-            <button
-              type="submit"
-              className="flex items-center gap-2 px-3 py-2 sm:px-4 bg-[#F3EAE5] text-[#B28F76] font-medium rounded-md border border-[#DDD0C2] hover:bg-[#DDD0C2] transition-colors shadow-sm text-sm sm:text-base"
-            >
-              <LogOut size={18} />
-              <span className="hidden sm:inline">Logout</span>
-            </button>
-          </form>
+          <UserMenu userName={userName} />
         ) : (
           <div className="flex items-center gap-2 sm:gap-4">
             <Link
