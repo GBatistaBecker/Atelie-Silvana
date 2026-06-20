@@ -1,8 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { redirect } from 'next/navigation'
-import { Search } from 'lucide-react'
 import { Header } from '@/components/Header'
+import { Footer } from '@/components/Footer'
 
 export default async function Home() {
   const supabase = await createClient()
@@ -30,6 +30,8 @@ export default async function Home() {
       <main className="flex-1 flex flex-col items-center justify-center p-8">
         
       </main>
+
+      <Footer />
     </div>
   )
 }

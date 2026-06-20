@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { Header } from '@/components/Header'
+import { Footer } from '@/components/Footer'
 import { Filters } from './Filters'
 import { Pagination } from './Pagination'
 import Link from 'next/link'
@@ -72,6 +73,7 @@ export default async function ProdutosPage({
                       src={product.image_url} 
                       alt={product.name}
                       fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
@@ -97,6 +99,8 @@ export default async function ProdutosPage({
         
         <Pagination totalPages={totalPages} currentPage={currentPage} />
       </main>
+
+      <Footer />
     </div>
   )
 }
