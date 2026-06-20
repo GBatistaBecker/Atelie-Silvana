@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Scissors } from 'lucide-react'
+import Image from 'next/image'
 import type { User } from '@supabase/supabase-js'
 import { CartBadge } from './CartBadge'
 import { SearchBar } from './SearchBar'
@@ -34,14 +34,17 @@ export async function Header({ user, activePath }: HeaderProps) {
       
       {/* Esquerda: Logo e Navegação */}
       <div className="flex w-full md:w-auto items-center justify-between gap-6 order-1">
-        <Link href="/" className="flex items-center gap-2 text-[#B28F76] hover:text-[#D2B6A2] transition-colors" aria-label="Logo Ateliê">
-          <Scissors size={24} className="rotate-90" />
-          <span className="font-heading font-bold text-xl hidden sm:block">Ateliê S.B.</span>
+        <Link href="/" className="flex items-center transition-opacity hover:opacity-80" aria-label="Logo Ateliê">
+          <Image 
+            src="/img/logo-sem-fundo.png" 
+            alt="Ateliê Silvana Becker Logo" 
+            width={180} 
+            height={72} 
+            className="h-14 sm:h-20 w-auto object-contain"
+            priority
+          />
         </Link>
         <nav className="flex items-center gap-4 sm:gap-6">
-          <Link href="/" className={`text-base sm:text-lg font-heading ${activePath === '/' ? 'font-bold underline underline-offset-4 decoration-2' : 'font-medium hover:text-[#D2B6A2] transition-colors'} text-[#B28F76]`}>
-            Home
-          </Link>
           <Link href="/produtos" className={`text-base sm:text-lg font-heading ${activePath === '/produtos' ? 'font-bold underline underline-offset-4 decoration-2' : 'font-medium hover:text-[#D2B6A2] transition-colors'} text-[#B28F76]`}>
             Catálogo
           </Link>
