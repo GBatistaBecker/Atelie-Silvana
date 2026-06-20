@@ -37,13 +37,13 @@ export function Footer() {
         <div className="flex flex-col space-y-3">
           <h3 className="font-heading font-bold text-[#B28F76] text-lg mb-2">Contato</h3>
           <a
-            href="https://wa.me/5548999960570"
+            href="https://wa.me/5548999632215"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-[#B28F76] text-sm hover:text-[#D2B6A2] transition-colors w-fit"
           >
             <Phone size={16} />
-            (48) 99996-0570
+            (48) 99963-2215
           </a>
           <a
             href="mailto:silvanabeckerbordados@yahoo.com"
