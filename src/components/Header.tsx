@@ -30,7 +30,7 @@ export async function Header({ user, activePath }: HeaderProps) {
   }
 
   return (
-    <header className="flex flex-col md:flex-row items-center justify-between px-6 py-4 border-b border-[#DDD0C2] bg-[#ECE1D9] gap-4 shadow-sm sticky top-0 z-50">
+    <header className="flex flex-col md:flex-row items-center justify-between px-6 py-4 border-b border-[#DDD0C2] bg-[#E5D7CC] gap-4 shadow-sm sticky top-0 z-50">
       
       {/* Esquerda: Logo e Navegação */}
       <div className="flex w-full md:w-auto items-center justify-between gap-6 order-1">

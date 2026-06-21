@@ -22,7 +22,7 @@ const InstagramIcon = ({ size = 24, className = '' }) => (
 
 export function Footer() {
   return (
-    <footer className="bg-[#ECE1D9] border-t border-[#DDD0C2] py-12 mt-auto">
+    <footer className="bg-[#E5D7CC] border-t border-[#DDD0C2] py-12 mt-auto">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
 
         {/* Seção 1: Sobre o Ateliê */}

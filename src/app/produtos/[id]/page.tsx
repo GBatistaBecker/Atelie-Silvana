@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { Header } from '@/components/Header'
+import { Footer } from '@/components/Footer'
 import { ProductImage } from './ProductImage'
 import { AddToCart } from './AddToCart'
 import Link from 'next/link'
@@ -43,6 +44,7 @@ export default async function ProductDetailsPage({
             </Link>
           </div>
         </main>
+        <Footer />
       </div>
     )
   }
@@ -98,6 +100,7 @@ export default async function ProductDetailsPage({
           )}
         </div>
       </main>
+      <Footer />
     </div>
   )
 }
