@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { cartItems, orderId } = body
+    const { cartItems, orderId, origin: clientOrigin } = body
 
     if (!cartItems || !cartItems.length || !orderId) {
       return NextResponse.json({ error: 'Dados insuficientes para o checkout' }, { status: 400 })
@@ -11,7 +11,7 @@ export async function POST(request: Request) {
 
     const handle = process.env.NEXT_PUBLIC_INFINITEPAY_HANDLE
     
-    const origin = request.headers.get('origin') || 'http://localhost:3000'
+    const origin = clientOrigin || request.headers.get('origin') || 'http://localhost:3000'
     
     if (!handle) {
       console.warn('NEXT_PUBLIC_INFINITEPAY_HANDLE não configurada. Simulando redirecionamento de sucesso.')
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     const items = cartItems.map((item: any) => ({
       quantity: item.quantity,
       price: Math.round(item.price * 100),
-      description: `${item.name}${item.custom_description ? ` (${item.custom_description})` : ''}`.substring(0, 255)
+      description: `${item.name}${item.custom_description ? ` (${item.custom_description})` : ''}`.substring(0, 128)
     }))
     
     const payload = {
@@ -42,9 +42,9 @@ export async function POST(request: Request) {
     })
 
     if (!res.ok) {
-      const err = await res.text()
-      console.error('InfinitePay API Error:', err)
-      return NextResponse.json({ error: 'Erro ao gerar link de pagamento na InfinitePay.' }, { status: res.status })
+      const errText = await res.text()
+      console.error('InfinitePay API Error:', errText)
+      return NextResponse.json({ error: `Erro na InfinitePay: ${errText}` }, { status: res.status })
     }
 
     const data = await res.json()

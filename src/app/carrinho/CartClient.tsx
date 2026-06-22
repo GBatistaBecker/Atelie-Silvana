@@ -44,7 +44,8 @@ export function CartClient({ addresses }: CartClientProps) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             cartItems,
-            orderId: res.orderId
+            orderId: res.orderId,
+            origin: window.location.origin
           })
         })
 
