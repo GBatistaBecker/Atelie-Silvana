@@ -1,7 +1,9 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { CartItem } from '@/contexts/CartContext'
+import { revalidatePath } from 'next/cache'
 
 export async function checkout(cartItems: CartItem[], addressId: string) {
   try {
@@ -21,13 +23,15 @@ export async function checkout(cartItems: CartItem[], addressId: string) {
     }
 
     // Securely fetch prices from the DB
+    const adminSupabase = createAdminClient()
     const productIds = cartItems.map(item => item.product_id)
-    const { data: products, error: productsError } = await supabase
+    const { data: products, error: productsError } = await adminSupabase
       .from('products')
       .select('id, price')
       .in('id', productIds)
 
     if (productsError || !products) {
+      console.error('Erro ao buscar produtos:', productsError)
       return { success: false, error: 'Erro ao buscar dados dos produtos.' }
     }
 
@@ -52,7 +56,7 @@ export async function checkout(cartItems: CartItem[], addressId: string) {
     }
 
     // Insert into orders
-    const { data: order, error: orderError } = await supabase
+    const { data: order, error: orderError } = await adminSupabase
       .from('orders')
       .insert({
         user_id: user.id,
@@ -74,7 +78,7 @@ export async function checkout(cartItems: CartItem[], addressId: string) {
       order_id: order.id
     }))
 
-    const { error: itemsError } = await supabase
+    const { error: itemsError } = await adminSupabase
       .from('order_items')
       .insert(finalOrderItems)
 
@@ -82,9 +86,11 @@ export async function checkout(cartItems: CartItem[], addressId: string) {
       console.error(itemsError)
       // Ideally we should rollback or have a transaction here, but since Supabase REST doesn't support generic transactions yet,
       // we log the error. We can also delete the order.
-      await supabase.from('orders').delete().eq('id', order.id)
+      await adminSupabase.from('orders').delete().eq('id', order.id)
       return { success: false, error: 'Erro ao salvar os itens do pedido.' }
     }
+
+    revalidatePath('/admin')
 
     return { success: true, orderId: order.id }
   } catch (error) {

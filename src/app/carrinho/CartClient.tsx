@@ -29,12 +29,42 @@ export function CartClient({ addresses }: CartClientProps) {
     }
 
     startTransition(async () => {
+      // 1. Salvar no banco e gerar o pedido
       const res = await checkout(cartItems, selectedAddressId)
-      if (res.success) {
-        clearCart()
-        router.push('/profile/orders')
-      } else {
-        setErrorMsg(res.error || 'Erro ao processar checkout.')
+      
+      if (!res.success || !res.orderId) {
+        setErrorMsg(res.error || 'Erro ao processar o pedido.')
+        return
+      }
+
+      // 2. Chamar a API da InfinitePay
+      try {
+        const response = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            cartItems,
+            orderId: res.orderId
+          })
+        })
+
+        const data = await response.json()
+
+        if (!response.ok || data.error) {
+          setErrorMsg(data.error || 'Erro ao gerar link de pagamento.')
+          return
+        }
+
+        if (data.url) {
+          clearCart()
+          // Redireciona o usuário para o link da InfinitePay (ou fallback de obrigado)
+          window.location.href = data.url
+        } else {
+          setErrorMsg('URL de pagamento inválida.')
+        }
+      } catch (err) {
+        console.error('Checkout fetch error:', err)
+        setErrorMsg('Erro de conexão ao gerar link de pagamento.')
       }
     })
   }
