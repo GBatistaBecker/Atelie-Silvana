@@ -47,13 +47,25 @@ export function OrderCardAdmin({ order }: { order: any }) {
       
       {/* Top Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div>
+        <div className="flex-1">
           <p className="text-sm text-[#B28F76] mb-1 font-semibold">ID do Pedido: <span className="font-normal opacity-80">{order.id}</span></p>
           <p className="text-lg font-heading text-[#B28F76]">Cliente: {order.user?.name || 'Cliente Desconhecido'} ({order.user?.email})</p>
-          <p className="text-sm text-[#B28F76] mt-1">
+          
+          {order.address && (
+            <div className="mt-2 text-sm text-[#B28F76] bg-[#F3EAE5] p-3 rounded-md border border-[#DDD0C2]">
+              <div className="font-bold mb-1 flex items-center gap-2">
+                <Truck size={16} /> Endereço de Entrega:
+              </div>
+              <p>{order.address.street}, {order.address.number} {order.address.complement && `- ${order.address.complement}`}</p>
+              <p>{order.address.neighborhood}</p>
+              <p>{order.address.city} - {order.address.state} | CEP: {order.address.zip_code}</p>
+            </div>
+          )}
+
+          <p className="text-sm text-[#B28F76] mt-3">
             Data: {new Date(order.created_at).toLocaleDateString('pt-BR')} às {new Date(order.created_at).toLocaleTimeString('pt-BR')}
           </p>
-          <p className="text-sm font-semibold text-[#B28F76] mt-2">
+          <p className="text-sm font-semibold text-[#B28F76] mt-1">
             Total: {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(order.total_price)}
           </p>
           <span className={`inline-block mt-3 px-3 py-1 text-xs font-bold rounded-full uppercase tracking-wide ${getStatusColor(order.status)}`}>
