@@ -190,6 +190,11 @@ export function CartClient({ addresses }: CartClientProps) {
           )}
         </div>
 
+        {/* Aviso Acadêmico */}
+        <div className="mb-6 bg-red-50 border border-red-200 rounded-md p-3 text-sm text-red-900 shadow-sm">
+          ⚠️ <strong>Aviso Importante:</strong> Este site é um projeto acadêmico e nenhuma encomenda real será produzida. O sistema de checkout está ativo para fins de demonstração, portanto, <strong>NÃO realize pagamentos reais</strong>, pois o produto não será entregue.
+        </div>
+
         {errorMsg && (
           <div className="mb-4 text-sm font-medium text-red-500 bg-red-50 border border-red-200 p-3 rounded-lg">
             {errorMsg}

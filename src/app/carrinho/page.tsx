@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { Header } from '@/components/Header'
+import { Footer } from '@/components/Footer'
 import { CartClient } from './CartClient'
 import { redirect } from 'next/navigation'
 
@@ -35,6 +36,7 @@ export default async function CarrinhoPage() {
         <h1 className="text-3xl font-heading font-bold text-[#B28F76] mb-8">Seu Carrinho</h1>
         <CartClient addresses={addresses} />
       </main>
+      <Footer />
     </div>
   )
 }
