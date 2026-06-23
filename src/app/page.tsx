@@ -50,8 +50,8 @@ export default async function Home() {
             <p className="text-lg sm:text-xl text-[#B28F76]/80 max-w-2xl mx-auto">
               Transformamos suas ideias em peças únicas para presentear, decorar ou guardar momentos especiais.
             </p>
-            <Link 
-              href="/produtos" 
+            <Link
+              href="/produtos"
               className="inline-block mt-4 px-8 py-4 bg-[#B28F76] text-white font-medium rounded-md hover:bg-[#D2B6A2] hover:text-[#B28F76] transition-all shadow-md hover:shadow-lg text-lg"
             >
               Ver Catálogo Completo
@@ -61,7 +61,7 @@ export default async function Home() {
 
         {/* 2. Seção de Diferenciais / Especialidades */}
         <section className="w-full py-20 px-6 max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="bg-[#ECE1D9] p-8 rounded-2xl shadow-sm border border-[#DDD0C2] hover:border-[#D2B6A2] transition-colors flex flex-col items-center text-center">
               <span className="text-4xl mb-4">🧵</span>
               <h3 className="text-xl font-heading font-bold text-[#B28F76] mb-3">Toalhas Bordadas</h3>
@@ -76,11 +76,6 @@ export default async function Home() {
               <span className="text-4xl mb-4">👶</span>
               <h3 className="text-xl font-heading font-bold text-[#B28F76] mb-3">Infantil</h3>
               <p className="text-[#B28F76]/80 text-sm leading-relaxed">Enxovais macios, mantas e sapatinhos delicados para dar as boas-vindas aos bebês.</p>
-            </div>
-            <div className="bg-[#ECE1D9] p-8 rounded-2xl shadow-sm border border-[#DDD0C2] hover:border-[#D2B6A2] transition-colors flex flex-col items-center text-center">
-              <span className="text-4xl mb-4">✨</span>
-              <h3 className="text-xl font-heading font-bold text-[#B28F76] mb-3">Encomendas Especiais</h3>
-              <p className="text-[#B28F76]/80 text-sm leading-relaxed">Projetos corporativos, eventos ou lembrancinhas de casamento sob consulta.</p>
             </div>
           </div>
         </section>
@@ -103,8 +98,8 @@ export default async function Home() {
                   <Link href={`/produtos/${product.id}`} key={product.id} className="group bg-[#F3EAE5] rounded-xl overflow-hidden border border-[#DDD0C2] hover:border-[#D2B6A2] transition-colors shadow-sm flex flex-col h-full">
                     <div className="relative aspect-square w-full bg-[#ECE1D9]">
                       {product.image_url ? (
-                        <Image 
-                          src={product.image_url} 
+                        <Image
+                          src={product.image_url}
                           alt={product.name}
                           fill
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -135,7 +130,7 @@ export default async function Home() {
           <h2 className="text-3xl font-heading font-bold text-[#B28F76] mb-16">Como funciona a personalização?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
             <div className="hidden md:block absolute top-10 left-[20%] right-[20%] h-0.5 bg-[#DDD0C2] -z-10"></div>
-            
+
             <div className="flex flex-col items-center">
               <div className="w-20 h-20 rounded-full bg-[#ECE1D9] border border-[#DDD0C2] flex items-center justify-center mb-6 shadow-sm">
                 <MousePointerClick className="w-8 h-8 text-[#B28F76]" />
@@ -167,9 +162,9 @@ export default async function Home() {
           <div className="max-w-7xl mx-auto px-6 py-20 flex flex-col md:flex-row items-center gap-12 lg:gap-20">
             <div className="w-full md:w-1/2 flex justify-center md:justify-end">
               <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-2xl overflow-hidden shadow-xl border-4 border-[#F3EAE5]">
-                <Image 
-                  src="/img/silvana.jpeg" 
-                  alt="Silvana Becker - Artesã" 
+                <Image
+                  src="/img/silvana.jpeg"
+                  alt="Silvana Becker - Artesã"
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 16rem, (max-width: 1024px) 20rem, 24rem"
